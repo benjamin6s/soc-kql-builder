@@ -1,0 +1,24 @@
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Secrets / sensitive files
+.env
+*.key
+*.pem
+*.pfx
+*.p12
+*.kdbx
+secrets.json
+credentials.json
+backup-codes.txt
+
+# Local/private notes not intended for GitHub
+private-notes/
+bank-notes/
+real-logs/

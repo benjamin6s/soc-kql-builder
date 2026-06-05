@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SOC KQL Builder</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <div>
+          <h1>SOC KQL Builder</h1>
+          <p>Build simple offline KQL queries from local schema metadata.</p>
+        </div>
+      </header>
+
+      <section class="builder-layout" aria-label="KQL query builder">
+        <form class="builder-panel" id="query-form">
+          <div class="field-row preset-field">
+            <label for="preset-select">Preset</label>
+            <select id="preset-select" name="preset"></select>
+          </div>
+
+          <div class="field-row search-field">
+            <label for="schema-search-input">Search</label>
+            <input
+              id="schema-search-input"
+              name="schemaSearch"
+              type="search"
+              placeholder="Search tables or columns..."
+              autocomplete="off"
+              aria-controls="schema-search-results"
+              aria-expanded="false"
+            />
+            <div id="schema-search-results" class="search-results" hidden></div>
+          </div>
+
+          <div class="field-row">
+            <label for="category-select">Category</label>
+            <select id="category-select" name="category"></select>
+          </div>
+
+          <div class="field-row">
+            <label for="table-select">Table</label>
+            <select id="table-select" name="table"></select>
+          </div>
+
+          <div class="field-row">
+            <label for="time-range-select">Time range</label>
+            <select id="time-range-select" name="timeRange">
+              <option value="1h">Last 1 hour</option>
+              <option value="6h">Last 6 hours</option>
+              <option value="24h" selected>Last 24 hours</option>
+              <option value="7d">Last 7 days</option>
+              <option value="30d">Last 30 days</option>
+            </select>
+          </div>
+
+          <fieldset class="templates-panel">
+            <legend>Local Templates</legend>
+            <div class="template-grid">
+              <div class="field-row">
+                <label for="template-name-input">Template name</label>
+                <input id="template-name-input" name="templateName" type="text" placeholder="Demo hunt template" autocomplete="off" />
+              </div>
+
+              <div class="field-row">
+                <label for="template-select">Saved templates</label>
+                <select id="template-select" name="template"></select>
+              </div>
+            </div>
+
+            <div class="template-actions">
+              <button id="save-template-button" type="button">Save template</button>
+              <button id="load-template-button" type="button" class="secondary-button">Load</button>
+              <button id="delete-template-button" type="button" class="remove-filter-button">Delete</button>
+            </div>
+
+            <div class="template-import-export">
+              <button id="export-templates-button" type="button" class="secondary-button">Export JSON</button>
+              <label class="file-button" for="import-templates-input">Import JSON</label>
+              <input id="import-templates-input" type="file" accept="application/json,.json" />
+            </div>
+            <p class="template-status" id="template-status" aria-live="polite"></p>
+          </fieldset>
+
+          <fieldset class="filter-row">
+            <legend>Filters</legend>
+            <div class="fieldset-header">
+              <button id="add-filter-button" type="button" class="secondary-button">Add filter</button>
+            </div>
+            <div class="filter-list" id="filter-list"></div>
+          </fieldset>
+
+          <fieldset class="columns-panel">
+            <legend>Output columns</legend>
+            <div class="checkbox-grid" id="column-checkboxes"></div>
+          </fieldset>
+
+          <div class="field-grid">
+            <div class="field-row">
+              <label for="sort-column-select">Sort column</label>
+              <select id="sort-column-select" name="sortColumn"></select>
+            </div>
+
+            <div class="field-row">
+              <label for="sort-direction-select">Sort direction</label>
+              <select id="sort-direction-select" name="sortDirection">
+                <option value="desc" selected>Descending</option>
+                <option value="asc">Ascending</option>
+              </select>
+            </div>
+
+            <div class="field-row">
+              <label for="limit-input">Limit</label>
+              <input id="limit-input" name="limit" type="number" min="1" max="10000" value="100" />
+            </div>
+          </div>
+        </form>
+
+        <section class="output-panel" aria-label="Generated KQL">
+          <div class="output-header">
+            <h2>Generated KQL</h2>
+            <button id="copy-button" type="button">Copy</button>
+          </div>
+          <pre id="kql-output" tabindex="0"></pre>
+          <p class="copy-status" id="copy-status" aria-live="polite"></p>
+
+          <section class="warnings-panel" aria-label="Validation and safety warnings">
+            <h2>Validation &amp; Safety Warnings</h2>
+            <div id="validation-warnings" class="warnings-content" aria-live="polite"></div>
+          </section>
+
+          <section class="explanation-panel" aria-label="Query explanation">
+            <h2>Query Explanation</h2>
+            <div id="query-explanation" class="explanation-content"></div>
+          </section>
+
+          <section class="help-panel" aria-label="Keyboard shortcuts">
+            <h2>Keyboard Shortcuts</h2>
+            <ul class="shortcut-list">
+              <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd> Copy generated KQL</li>
+              <li><kbd>Ctrl</kbd> + <kbd>S</kbd> Save the named local template</li>
+              <li><kbd>Ctrl</kbd> + <kbd>N</kbd> Start a new default query</li>
+            </ul>
+            <div class="help-warnings">
+              <p class="privacy-warning">
+                Do not save real usernames, hostnames, tenant IDs, workspace IDs, tokens, or production indicators.
+              </p>
+              <p class="privacy-warning">
+                Review exported/imported templates before sharing. Do not include real usernames, hostnames, tenant IDs,
+                workspace IDs, tokens, or production indicators.
+              </p>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <script src="js/schemas.js"></script>
+    <script src="js/presets.js"></script>
+    <script src="js/queryBuilder.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
