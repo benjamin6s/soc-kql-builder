@@ -2,7 +2,7 @@
 
 ## Live Demo
 
-[Open SOC KQL Builder](https://benjamin6s.github.io/soc-kql-builder/)
+[Open SOC KQL Builder](https://benko-lck.github.io/soc-kql-builder/)
 
 SOC KQL Builder is a local, offline web app for building basic KQL queries for SOC and blue-team learning workflows.
 
