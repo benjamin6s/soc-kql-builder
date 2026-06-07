@@ -179,10 +179,8 @@ DeviceProcessEvents
 
 ## Credits / Inspiration
 
-This project was inspired by Chris Huber.
+This project was inspired by the broader ecosystem of KQL and SOC tooling, including Chris Huber's KustoForge project.
 
-He built an open-source desktop KQL query builder "KustoForge" for Microsoft security and Azure services.
+SOC KQL Builder is an independent learning and portfolio project focused on building an offline, static web-based query builder for junior SOC workflows.
 
-SOC KQL Builder is a separate web-based implementation built as a learning and portfolio project.
-
-No source code from KustoForge was copied into this project. The goal was to build my own offline static web version focused on junior SOC learning workflows.
+No source code from KustoForge or any external project was copied into this repository.
